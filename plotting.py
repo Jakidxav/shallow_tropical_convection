@@ -130,7 +130,7 @@ def plot_field(projection, transform, central_lon, x, y, field, vmin, vmax, cont
 """
 Plot a global field centered on a specific longitude, with the option of overlaying wind vectors
 """
-def plot_field_wind(projection, transform, central_lon, x, y, field, vmin, vmax, contours, colormap, vmin, windx, windy, stride,    			    lon_list, lat_list, left_title, left_title_wind, right_title, figure_name, figure_name_wind, wind_vectors, save_fig):
+def plot_field_wind(projection, transform, central_lon, x, y, field, vmin, vmax, contours, colormap, windx, windy, stride,    			    lon_list, lat_list, left_title, left_title_wind, right_title, figure_name, figure_name_wind, wind_vectors, save_fig):
 
     fig = plt.figure(figsize=(14, 14))
     ax = plt.axes(projection=projection)
@@ -181,7 +181,7 @@ Run a global t-statistic test, plot contours where the t-stat is >= t_critical
 for some significance level.
 """
 #plotting method
-def plot_field_tstat(projection, transform, central_lon, x, y, t_field, vmin, vmax, contours, colormap, 
+def plot_field_tstat(projection, transform, central_lon, x, y, t_field, critical_t, vmin, vmax, contours, colormap, 
                        lon_list, lat_list, left_title, right_title, figure_name, save_fig):
     
     fig = plt.figure(figsize=(14, 14))
