@@ -61,13 +61,13 @@ def plot_wind(projection, transform, central_lon, x, y, windx, windy, stride,
     ax = plt.axes(projection=projection)
 
     q = ax.quiver(x[::stride], y[::stride], windx[::stride, ::stride], windy[::stride, ::stride],
-        minshaft=2, pivot='tip', transform=trans)
+        minshaft=2, pivot='tip', transform=transform)
         
     ax.coastlines()
 
-    ax.set_xticks(lon_list, crs=trans)
+    ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
-    ax.set_yticks(lat_list, crs=trans)
+    ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
@@ -99,14 +99,14 @@ def plot_field(projection, transform, central_lon, x, y, field, vmin, vmax, cont
 
 
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
-    plt1 = ax.contourf(x, y, field, contours, transform=trans, cmap=colormap, norm=Norm)
+    plt1 = ax.contourf(x, y, field, contours, transform=transform, cmap=colormap, norm=Norm)
     cbar = fig.colorbar(plt1, orientation='vertical', shrink=0.2)
     
     ax.coastlines()
 
-    ax.set_xticks(lon_list, crs=trans)
+    ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
-    ax.set_yticks(lat_list, crs=trans)
+    ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
@@ -137,18 +137,18 @@ def plot_field_wind(projection, transform, central_lon, x, y, field, vmin, vmax,
 
 
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
-    plt1 = ax.contourf(x, y, field, contours, transform=trans, cmap=colormap, norm=Norm)
+    plt1 = ax.contourf(x, y, field, contours, transform=transform, cmap=colormap, norm=Norm)
     cbar = fig.colorbar(plt1, orientation='vertical', shrink=0.2)
     
     if(wind_vectors==True):
         q = ax.quiver(x[::stride], y[::stride], windx[::stride, ::stride], windy[::stride, ::stride],
-             minshaft=2, pivot='tip', transform=trans)
+             minshaft=2, pivot='tip', transform=transform)
         
     ax.coastlines()
 
-    ax.set_xticks(lon_list, crs=trans)
+    ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
-    ax.set_yticks(lat_list, crs=trans)
+    ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
@@ -188,17 +188,17 @@ def plot_field_tstat(projection, transform, central_lon, x, y, t_field, critical
     ax = plt.axes(projection=projection)
 
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
-    plt1 = ax.contourf(x, y, t_field, contours, transform=trans, cmap=colormap, norm=Norm)
+    plt1 = ax.contourf(x, y, t_field, contours, transform=transform, cmap=colormap, norm=Norm)
     cbar = fig.colorbar(plt1, orientation='vertical', shrink=0.2)
 
-    ax.contour(x, y, t_field>=critical_t, transform=trans, colors='k')
-    ax.contour(x, y, t_field<=-critical_t, transform=trans, colors='k')
+    ax.contour(x, y, t_field>=critical_t, transform=transform, colors='k')
+    ax.contour(x, y, t_field<=-critical_t, transform=transform, colors='k')
     
     ax.coastlines()
 
-    ax.set_xticks(lon_list, crs=trans)
+    ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
-    ax.set_yticks(lat_list, crs=trans)
+    ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
