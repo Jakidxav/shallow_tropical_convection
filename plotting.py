@@ -21,22 +21,30 @@ def plot_contours_latHeight(field, vmin, vmax, contours, cmap, p_list, p_label, 
     fig = plt.figure(figsize=(20, 20))
     fig, ax = plt.subplots()
 
+    #normalize colormap so that the zero contour is white
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
     contourf = plt.contourf(field, contours, cmap=cmap, norm=Norm)
 
+    #set colorbar
     cbar = fig.colorbar(contourf, orientation='horizontal')
     cbar.set_label(cbar_label)
     plt.gca().invert_yaxis()
 
+    #set left and right titles
     ax.set_title(left, loc='left', weight='semibold', size='medium')
     ax.set_title(right, loc='right', weight='semibold', size='medium')
+        
+    #set y axis label
     ax.set_ylabel(p_label)
 
+    #set x and y xticks and their labels
     ax.set_xticks(lon_list)
     ax.set_xticklabels(lon_labels)
+
     ax.set_yticks(p_tick_list)
     ax.set_yticklabels(p_list, fontsize=6)
 
+    #create seccond y axis that shares the x axis
     ax2 = ax.twinx()
     ax2.set_ylim(20, 0)
     ax2.set_ylabel(z_label)
@@ -59,24 +67,30 @@ def plot_wind(projection, transform, central_lon, x, y, windx, windy, stride,
     
     fig = plt.figure(figsize=(14, 14))
     ax = plt.axes(projection=projection)
-
+    
+    #create wind vectors; plot every few vectors determined by the stride parameter to declutter the plot
     q = ax.quiver(x[::stride], y[::stride], windx[::stride, ::stride], windy[::stride, ::stride],
         minshaft=2, pivot='tip', transform=transform)
         
+    #draw the outlines of the coastlines
     ax.coastlines()
 
+    #set x and y ticks and labels
     ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
+
     ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
+    #format the latitude/longitude labels on the outsides of the plot
     lon_formatter = cticker.LongitudeFormatter()
     lat_formatter = cticker.LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
     ax.grid(linewidth=2, color='black', alpha = 0.5)
     
+    #set left and right titles
     ax.set_title(left_title_wind, loc='left', weight='semibold', size='medium')
     ax.set_title(right_title, loc='right', weight='semibold', size='medium')
 
@@ -97,25 +111,32 @@ def plot_field(projection, transform, central_lon, x, y, field, vmin, vmax, cont
     fig = plt.figure(figsize=(14, 14))
     ax = plt.axes(projection=projection)
 
-
+    #normalize the colormap so that the zero contour is white
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
     plt1 = ax.contourf(x, y, field, contours, transform=transform, cmap=colormap, norm=Norm)
+
+    #add colorbar
     cbar = fig.colorbar(plt1, orientation='vertical', shrink=0.2)
     
+    #draw the outlines of the coastlines
     ax.coastlines()
 
+    #set x and y ticks and labels
     ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
+
     ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
+    #format the latitude/longitude labels on the outsides of the plot
     lon_formatter = cticker.LongitudeFormatter()
     lat_formatter = cticker.LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
     ax.grid(linewidth=2, color='black', alpha = 0.5)
     
+    #set left and right titles
     ax.set_title(left_title, loc='left', weight='semibold', size='medium')
     ax.set_title(right_title, loc='right', weight='semibold', size='medium')
 
@@ -135,36 +156,47 @@ def plot_field_wind(projection, transform, central_lon, x, y, field, vmin, vmax,
     fig = plt.figure(figsize=(14, 14))
     ax = plt.axes(projection=projection)
 
-
+    #normalize the colormap so that the zero contour is white
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
     plt1 = ax.contourf(x, y, field, contours, transform=transform, cmap=colormap, norm=Norm)
+
+    #set the colorbar
     cbar = fig.colorbar(plt1, orientation='vertical', shrink=0.2)
     
+    #option to plot the wind barbs over the contours
     if(wind_vectors==True):
         q = ax.quiver(x[::stride], y[::stride], windx[::stride, ::stride], windy[::stride, ::stride],
              minshaft=2, pivot='tip', transform=transform)
         
+    #draw the outlines of the coastlines
     ax.coastlines()
 
+    #set x and y ticks and labels
     ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
+
     ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
+    #format the latitude/longitude labels on the outsides of the plot
     lon_formatter = cticker.LongitudeFormatter()
     lat_formatter = cticker.LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
     ax.grid(linewidth=2, color='black', alpha = 0.5)
     
+    #set left titles according to whether the wind barbs are plotted
     if(wind_vectors==True):
         ax.set_title(left_title_wind, loc='left', weight='semibold', size='medium')
     else:
         ax.set_title(left_title, loc='left', weight='semibold', size='medium')
     
+    #set right title
     ax.set_title(right_title, loc='right', weight='semibold', size='medium')
 
+    #the figure will save to a different place depending on whether the wind field is
+    #overlayed on the data contours
     if(save_fig==True):
         if(wind_vectors==True):
             plt.savefig(figure_name_wind, format='pdf', bbox_inches='tight')
@@ -187,26 +219,33 @@ def plot_field_tstat(projection, transform, central_lon, x, y, t_field, critical
     fig = plt.figure(figsize=(14, 14))
     ax = plt.axes(projection=projection)
 
+    #normalize the colormap so that the zero contour is white
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
     plt1 = ax.contourf(x, y, t_field, contours, transform=transform, cmap=colormap, norm=Norm)
     cbar = fig.colorbar(plt1, orientation='vertical', shrink=0.2)
 
+    #plot where the t-statistic exceeds that of the critical t value
     ax.contour(x, y, t_field>=critical_t, transform=transform, colors='k')
     ax.contour(x, y, t_field<=-critical_t, transform=transform, colors='k')
     
+    #draw the outlines of the coastlines
     ax.coastlines()
 
+    #set the x and y ticks and labels
     ax.set_xticks(lon_list, crs=transform)
     ax.set_xticklabels(lon_list, weight='bold')
+
     ax.set_yticks(lat_list, crs=transform)
     ax.set_yticklabels(lat_list, weight='bold')
     ax.yaxis.tick_left()
     
+    #format the latitude/longitude labels on the outsides of the plot
     lon_formatter = cticker.LongitudeFormatter()
     lat_formatter = cticker.LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
 
+    #set the left and right titles
     ax.set_title(left_title, loc='left', weight='semibold', size='medium')
     ax.set_title(right_title, loc='right', weight='semibold', size='medium')
 
@@ -218,5 +257,35 @@ def plot_field_tstat(projection, transform, central_lon, x, y, t_field, critical
 
 
 
+"""
+Plot a Hovmoller diagram (time vs longitude in this case) for a given variable.
+"""
+def plot_hovmoller(data, vmin, vmax, contours, colormap, lon_list, lon_list_labels, 
+                   year_ticks, year_lables, figure_name, save_fig):
+    plt.figure(figsize=(15, 7))
+    
+    #normalize colormap so that the zero contour is white
+    Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+    contour = plt.contourf(data, contours, cmap=colormap, norm=Norm)
+    
+    #add colorbar
+    cbar = plt.colorbar(shrink=0.9)
+    cbar.set_label('hPa per second')
+
+    #set x and y ticks and labels
+    plt.xticks(lon_list, labels=lon_list_labels)
+    plt.xlabel('Longitude')
+
+    plt.yticks(yr_ticks[::2], labels=year_list[::24])
+    plt.ylabel('Time -->')
+
+    #show the 1982-3 El Nino event
+    plt.axhline(y = 37, color='g')
+    plt.title(title)
+
+    if(save_fig==True):
+        plt.savefig(figure_name, format='pdf', bbox_inches='tight')
+        
+    plt.show()
 
 
