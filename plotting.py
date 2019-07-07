@@ -261,8 +261,8 @@ def plot_field_tstat(projection, transform, central_lon, x, y, t_field, critical
 Plot a Hovmoller diagram (time vs longitude in this case) for a given variable.
 """
 def plot_hovmoller(data, vmin, vmax, contours, colormap, lon_list, lon_list_labels, 
-                   year_ticks, year_lables, figure_name, save_fig):
-    plt.figure(figsize=(15, 7))
+                   year_ticks, year_labels, yr_idx, title, figure_name, save_fig):
+    plt.figure(figsize=(12, 7))
     
     #normalize colormap so that the zero contour is white
     Norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
@@ -276,11 +276,13 @@ def plot_hovmoller(data, vmin, vmax, contours, colormap, lon_list, lon_list_labe
     plt.xticks(lon_list, labels=lon_list_labels)
     plt.xlabel('Longitude')
 
-    plt.yticks(yr_ticks[::2], labels=year_list[::24])
+    plt.yticks(year_ticks[::2], labels=year_labels[::24])
     plt.ylabel('Time -->')
 
-    #show the 1982-3 El Nino event
-    plt.axhline(y = 37, color='g')
+    #show a given El Nino event (you need to know the time index)
+    plt.axhline(y = yr_idx, color='g')
+
+    #set figure title
     plt.title(title)
 
     if(save_fig==True):
