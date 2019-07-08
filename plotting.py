@@ -310,8 +310,8 @@ def plot_pcs(pc, months, years, title, ylims, hline, hline_y):
     #set the y limits of the plot to zoom in on the areas of interest
     ax.set_ylim(ylims)
     
-    #label y axis
-    ax.set_ylabel('Time')
+    #label x axis
+    ax.set_xlabel('Time')
 
     #extract xticks and xtick labels
     years_xticks = np.arange(len(months))[1::48]
