@@ -1,16 +1,17 @@
+import numpy as np
+
 import matplotlib.ticker as ticker
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.transforms as transform
+import matplotlib.cm as cm
+import cmocean
+
 
 import cartopy
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 import cartopy.mpl.ticker as cticker
-
-import matplotlib.cm as cm
-import cmocean
-
 
 """
 Plot latitude-height contours, with dual y-axes: pressure and height coordinates.
@@ -288,6 +289,60 @@ def plot_hovmoller(data, vmin, vmax, contours, colormap, lon_list, lon_list_labe
     if(save_fig==True):
         plt.savefig(figure_name, format='pdf', bbox_inches='tight')
         
+    plt.show()
+
+
+"""
+Plot a Principal Component time series at 150W, with the option of plotting a horizontal
+dashed line to indicate a given value or threshold.
+"""
+def plot_pcs(pc, months, years, title, ylims, hline, hline_y):
+
+    fig, ax = plt.subplots(figsize=(8, 7))
+
+    #plot the pc time series
+    ax.plot(pc, 'r')
+    
+    #if the user wants to plot a line indicating a threshold, do so here
+    if hline==True:
+        ax.axhline(y=hline_y, color='k', linestyle='--')
+    
+    #set the y limits of the plot to zoom in on the areas of interest
+    ax.set_ylim(ylims)
+    
+    #label y axis
+    ax.set_ylabel('Time')
+
+    #extract xticks and xtick labels
+    years_xticks = np.arange(len(months))[1::48]
+    years_xlabel = years[1::48]
+    
+    #set xticks and xtick labels
+    ax.set_xticks(years_xticks)
+    ax.set_xticklabels(years_xlabel)
+    
+    #set title
+    ax.set_title(title)
+
+    plt.show()
+
+
+
+"""
+Plot a periodogram to display the power spectral density of a given time series.
+Note, you need to calculate the periodogram with scipy.signal.periodogram() and pass that 
+information into this plotting method.
+"""
+def plot_periodogram(f, Pxx, to_add_title):
+    #plot the power spectral density density information 
+    #given frequency and power density informaiton
+    plt.plot(f, Pxx)
+
+    #add x and y labels, as well as a title
+    plt.xlabel('Frequency')
+    plt.ylabel('Power Spectral Density')
+    plt.title('Spectral Density for {}'.format(to_add_title))
+
     plt.show()
 
 
