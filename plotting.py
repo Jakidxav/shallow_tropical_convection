@@ -106,8 +106,7 @@ def plot_wind(projection, transform, central_lon, x, y, windx, windy, stride,
 """
 Plot a global field centered on a specific longitude
 """
-def plot_field(projection, transform, central_lon, x, y, field, vmin, vmax, contours, colormap,
-               lon_list, lat_list, left_title, right_title, figure_name, save_fig):
+def plot_field(projection, transform, central_lon, x, y, field, vmin, vmax, contours, colormap, lon_list, lat_list, left_title, right_title, figure_name, save_fig):
     
     fig = plt.figure(figsize=(14, 14))
     ax = plt.axes(projection=projection)
